@@ -1,5 +1,5 @@
 # Library
-# Feauters
+# Features
 ## User account
   - login & registration
   - book a volume
