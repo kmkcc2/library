@@ -1,0 +1,20 @@
+{
+  "name": "library",
+  "version": "1.0.0",
+  "description": "- login & registration\r   - book a volume\r   - return a volume\r   - show all volumes\r   - show all available volumes\r ## Admin account\r   - login & registration\r   - add new volume to a database\r   - delete existing volume from a database\r   - edit existing volume\r   - show all volumes\r   - show all available volumes\r # Constraints\r   - user cannot perform admin actions\r   - admin cannot perform user actions\r   - user cannot book a volume that has already been booked and is not available",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+}
