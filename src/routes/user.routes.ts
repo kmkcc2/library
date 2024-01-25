@@ -8,7 +8,7 @@ router.route('/')
   .get(authorizeAdmin, findAll)
 
 router.route('/:id')
-  .get(authorizeUser, findOne)
+  .get(authorizeAdmin, findOne)
   .put(authorizeUser, update)
   .delete(authorizeUser, destroy)
 

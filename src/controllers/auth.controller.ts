@@ -1,9 +1,11 @@
 import { type Request, type Response } from 'express'
 import bcrypt from 'bcryptjs'
 import UserRepository from '../repositories/user.repository'
+import jwt from 'jsonwebtoken'
 
+const SALT_ROUNDS = 10
 export const register = async (req: Request, res: Response) => {
-  const hash = bcrypt.hashSync(req.body.password, 10)
+  const hash = bcrypt.hashSync(req.body.password, SALT_ROUNDS)
   const user = {
     name: req.body.name,
     login: req.body.login,
@@ -28,4 +30,26 @@ export const register = async (req: Request, res: Response) => {
     })
   }
 }
-export const login = (req: Request, res: Response) => {}
+export const login = async (req: Request, res: Response) => {
+  const user = await UserRepository.findUserByLogin(req.body.login)
+  if (!user) {
+    return res
+      .status(404)
+      .send({ message: 'User with provided login does not exist.' })
+  }
+  const payload: { id: number, name: string, login: string, role: string } = {
+    id: user.id,
+    name: user.name,
+    login: user.login,
+    role: user.role
+  }
+  if (bcrypt.compareSync(req.body.password, user.password)) {
+    const SECRET = process.env.ACCESS_TOKEN_SECRET as string
+    const accessToken = jwt.sign(payload, SECRET, { expiresIn: '1h' })
+    return res.send(
+      {
+        token: accessToken
+      })
+  }
+  return res.status(401).send({ message: 'Password is invalid' })
+}
