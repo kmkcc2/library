@@ -8,6 +8,9 @@ export class Book extends Model {
   declare id: number
 
   @Column
+  declare name: string
+
+  @Column
   declare isbn: string
 
   @Column
