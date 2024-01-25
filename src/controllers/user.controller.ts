@@ -13,7 +13,7 @@ export const create = async (
     name: req.body.name,
     login: req.body.login,
     password: hash,
-    role: 'user'
+    role: req.body.role
   }
   try {
     const userUnique = await UserRepository.findUserByLogin(
@@ -85,6 +85,14 @@ export const update = async (
         message: `Cannot update User with id=${id}, req.body is empty!`
       })
     }
+    if (Object.prototype.hasOwnProperty.call(
+      req.body,
+      'role'
+    )) {
+      return res.status(403).send({
+        message: `Permisson denied, role cannot be changed.`
+      })
+    }
     const newPassword = Object.prototype.hasOwnProperty.call(
       req.body,
       'password'
@@ -98,9 +106,7 @@ export const update = async (
       login: Object.prototype.hasOwnProperty.call(req.body, 'login')
         ? req.body.login
         : oldUser.login,
-      role: Object.prototype.hasOwnProperty.call(req.body, 'role')
-        ? req.body.role
-        : oldUser.role,
+      role: oldUser.role,
       password: newPassword
     }
     const response = await UserRepository.updateUser(id, userBody)
