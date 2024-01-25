@@ -1,14 +1,11 @@
 import express from 'express'
-import { create, destroy, findAll, findOne, update } from '../controllers/user.controller'
 const router = express.Router()
 
-router.route('/')
-  .post(create)
+router.route('/books')
   .get(findAll)
-
-router.route('/:id')
-  .get(findOne)
-  .put(update)
-  .delete(destroy)
+router.route('/books/rent')
+  .post(rent)
+router.route('/books/return')
+  .post(return)
 
 export default router
