@@ -2,6 +2,7 @@ import { type Request, type Response } from 'express'
 import { Book } from '../models/book'
 import RentalRepository from '../repositories/rental.repository'
 import { JwtPayload, decode } from 'jsonwebtoken'
+import BookRepository from '../repositories/book.repository'
 
 export const rentBook = async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization
@@ -12,7 +13,7 @@ export const rentBook = async (req: Request, res: Response) => {
     try {
       const book_id = req.params.id
       if (book_id === null) throw new Error('Book Id must be specified')
-      const book = Book.findByPk(book_id)
+      const book = await BookRepository.findBookById(book_id)
       if (book === null) {
         return res.status(404).send({
           message: `Cannot find book with id: ${book_id}`
@@ -42,7 +43,7 @@ export const returnBook = async (req: Request, res: Response) => {
     try {
       const book_id = req.params.id
       if (book_id === null) throw new Error('Book Id must be specified')
-      const book = Book.findByPk(book_id)
+      const book = await BookRepository.findBookById(book_id)
       if (book === null) {
         return res.status(404).send({
           message: `Cannot find book with id: ${book_id}`

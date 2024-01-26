@@ -10,14 +10,14 @@ module.exports = {
   test: {
     username: 'postgres',
     password: 'admin',
-    database: 'libraryTest',
+    database: 'libraryDevelopment',
     host: '127.0.0.1',
     dialect: 'postgres'
   },
   production: {
     username: 'postgres',
     password: 'admin',
-    database: 'library',
+    database: 'libraryDevelopment',
     host: '127.0.0.1',
     dialect: 'postgres'
   }

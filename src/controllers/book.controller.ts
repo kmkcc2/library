@@ -4,13 +4,13 @@ import { DatabaseError } from 'sequelize'
 import BookRepository from '../repositories/book.repository'
 
 export const create = async (req: Request, res: Response) => {
-  const book = {
+  const book = new Book({
     title: req.body.title,
     author: req.body.author,
     isbn: req.body.isbn
-  }
+  })
   try {
-    const newBook = await Book.create(book)
+    const newBook = await BookRepository.createBook(book)
     return res.send(newBook)
   } catch (err) {
     if (err instanceof Error) console.log(err.message)
@@ -23,14 +23,11 @@ export const create = async (req: Request, res: Response) => {
 export const findAll = async (req: Request, res: Response) => {
   try {
     const availableOnly = req.query.filter === 'available'
-    console.log(req.query)
     if (availableOnly) {
       res.send(await BookRepository.findAllAvailable())
       console.log('available')
     }else{
-      res.send(await Book.findAll())
-      console.log('all')
-
+      res.send(await BookRepository.findAll())
     }
   } catch (err) {
     if (err instanceof Error) console.log(err.message)
@@ -44,7 +41,7 @@ export const findOne = async (req: Request, res: Response) => {
   try {
     const id = req.params.id
     if (id === null) throw new Error('Id must be specified')
-    const book = await Book.findByPk(id)
+    const book = await BookRepository.findBookById(id)
     if (book !== null) return res.send(book)
     return res.status(404).send({
       message: `Cannot find book with id: ${id}`
@@ -100,7 +97,7 @@ export const destroy = async (req: Request, res: Response) => {
   try {
     const id = req.params.id
     if (id === null) throw new Error('Id must be specified')
-    const response = await Book.destroy({ where: { id } })
+    const response = await BookRepository.deleteBook(id)
     if (response === 1) {
       return res.send({
         message: 'Book was deleted successfully!'
