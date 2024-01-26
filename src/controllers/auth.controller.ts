@@ -5,7 +5,8 @@ import jwt from 'jsonwebtoken'
 
 const SALT_ROUNDS = 10
 export const register = async (req: Request, res: Response) => {
-  const hash = bcrypt.hashSync(req.body.password, SALT_ROUNDS)
+  const password = req.body.password
+  const hash = bcrypt.hashSync(password, SALT_ROUNDS)
   const user = {
     name: req.body.name,
     login: req.body.login,

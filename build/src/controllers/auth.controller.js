@@ -18,7 +18,8 @@ const user_repository_1 = __importDefault(require("../repositories/user.reposito
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const SALT_ROUNDS = 10;
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const hash = bcryptjs_1.default.hashSync(req.body.password, SALT_ROUNDS);
+    const password = req.body.password;
+    const hash = bcryptjs_1.default.hashSync(password, SALT_ROUNDS);
     const user = {
         name: req.body.name,
         login: req.body.login,
