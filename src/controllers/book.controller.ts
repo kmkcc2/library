@@ -10,7 +10,7 @@ export const create = async (req: Request, res: Response) => {
     isbn: req.body.isbn
   }
   try {
-    const newBook = Book.create(book)
+    const newBook = await Book.create(book)
     return res.send(newBook)
   } catch (err) {
     if (err instanceof Error) console.log(err.message)
@@ -22,7 +22,16 @@ export const create = async (req: Request, res: Response) => {
 
 export const findAll = async (req: Request, res: Response) => {
   try {
-    res.send(await Book.findAll())
+    const availableOnly = req.query.filter === 'available'
+    console.log(req.query)
+    if (availableOnly) {
+      res.send(await BookRepository.findAllAvailable())
+      console.log('available')
+    }else{
+      res.send(await Book.findAll())
+      console.log('all')
+
+    }
   } catch (err) {
     if (err instanceof Error) console.log(err.message)
     res.status(500).send({
@@ -81,7 +90,7 @@ export const update = async (req: Request, res: Response) => {
   const response = await BookRepository.updateBook(id, bookBody)
   if (response !== null) {
     return res.send({
-      message: 'User was updated successfully.'
+      message: 'Book was updated successfully.'
     })
   }
   throw new Error()

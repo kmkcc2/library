@@ -1,17 +1,17 @@
 import express from 'express'
-import { authorizeAdmin, authorizeUser } from '../middleware/authorize'
+import { authorizeAdminOnly, authorizeAdminOrUser } from '../middleware/authorize'
 import { create, destroy, findAll, findOne, update } from '../controllers/book.controller'
 
 const router = express.Router()
 
 router.route('/')
-  .post(authorizeAdmin, create)
-  .get(authorizeUser, findAll)
+  .post(authorizeAdminOnly, create)
+  .get(authorizeAdminOrUser, findAll)
 
 router.route('/:id')
-  .get(authorizeUser, findOne)
-  .put(authorizeAdmin, update)
-  .delete(authorizeAdmin, destroy)
+  .get(authorizeAdminOrUser, findOne)
+  .put(authorizeAdminOnly, update)
+  .delete(authorizeAdminOnly, destroy)
 
 
 export default router
