@@ -27,7 +27,7 @@ export default class RentalRepository {
     return await RentalModel.create(payload) as Rental
   }
 
-  static async deleteRental(id: string): Promise<number> {
+  static async deleteRental(id: number): Promise<number> {
     return await RentalModel.destroy({ where: { id } })
   }
 }
