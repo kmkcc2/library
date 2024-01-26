@@ -12,7 +12,9 @@ export default class BookRepository {
   }
 
   static async findAllAvailable() {
-    return await sequelize.query("SELECT * FROM \"Books\" LEFT JOIN \"Rentals\" ON \"Books\".id=\"Rentals\".book_id;", { type: QueryTypes.SELECT }) as unknown as Book[]
+    return await sequelize.query(
+      "SELECT * FROM \"Books\" WHERE \"Books\".id NOT IN (SELECT book_id FROM \"Rentals\");",
+     { type: QueryTypes.SELECT }) as unknown as Book[]
   }
 
   static async findBookByName(name: string) {
