@@ -35,7 +35,7 @@ const rentBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const isRented = yield rental_repository_1.default.findRentalByBookId(book_id);
             if (isRented !== null) {
                 return res.status(422).send({
-                    message: `Book with id: ${book_id} is already rented`
+                    message: `Book with id: ${book_id} is not available`
                 });
             }
             res.send(yield rental_repository_1.default.createRental({ user_id, book_id }));

@@ -6,12 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const user_controller_1 = require("../controllers/user.controller");
 const authorize_1 = require("../middleware/authorize");
+const accountRoles_1 = require("../common/accountRoles");
 const router = express_1.default.Router();
 router.route('/')
-    .post(authorize_1.authorizeAdminOnly, user_controller_1.create)
-    .get(authorize_1.authorizeAdminOnly, user_controller_1.findAll);
+    .post((0, authorize_1.authorize)(accountRoles_1.Role.Admin), user_controller_1.create)
+    .get((0, authorize_1.authorize)(accountRoles_1.Role.Admin), user_controller_1.findAll);
 router.route('/:id')
-    .get(authorize_1.authorizeAdminOnly, user_controller_1.findOne)
-    .put(authorize_1.authorizeAdminOrUser, user_controller_1.update)
-    .delete(authorize_1.authorizeAdminOrUser, user_controller_1.destroy);
+    .get((0, authorize_1.authorize)(accountRoles_1.Role.Admin), user_controller_1.findOne)
+    .put((0, authorize_1.authorize)(accountRoles_1.Role.Admin), user_controller_1.update)
+    .delete((0, authorize_1.authorize)(accountRoles_1.Role.Admin), user_controller_1.destroy);
 exports.default = router;

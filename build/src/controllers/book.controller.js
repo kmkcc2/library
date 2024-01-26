@@ -13,15 +13,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.destroy = exports.update = exports.findOne = exports.findAll = exports.create = void 0;
-const book_1 = require("../models/book");
 const sequelize_1 = require("sequelize");
 const book_repository_1 = __importDefault(require("../repositories/book.repository"));
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const book = new book_1.Book({
-        title: req.body.title,
+    const book = {
+        name: req.body.name,
         author: req.body.author,
         isbn: req.body.isbn
-    });
+    };
     try {
         const newBook = yield book_repository_1.default.createBook(book);
         return res.send(newBook);

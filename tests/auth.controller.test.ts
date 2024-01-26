@@ -56,7 +56,7 @@ describe('POST to /login', () => {
   })
 })
 describe('POST to /register', () => {
-  test('should respond with 422 when user payload is incorrect', async () => {
+  test('should respond with 400 when user payload is incorrect', async () => {
     const UserFindByLoginMock = jest
       .spyOn(UserRepository, 'findUserByLogin')
       .mockResolvedValue(user)
@@ -65,7 +65,7 @@ describe('POST to /register', () => {
       .send({ login: 'asd', password: 'pass'})
 
     expect(UserFindByLoginMock).toHaveBeenCalled()
-    expect(statusCode).toBe(422)
+    expect(statusCode).toBe(400)
   })
   test('should respond with 200 status code and return new user', async () => {
     const UserRepositoryMock = jest

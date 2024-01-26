@@ -24,7 +24,7 @@ class BookRepository {
     }
     static findAllAvailable() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield index_1.default.query("SELECT * FROM \"Books\" LEFT JOIN \"Rentals\" ON \"Books\".id=\"Rentals\".book_id;", { type: sequelize_1.QueryTypes.SELECT });
+            return yield index_1.default.query("SELECT * FROM \"Books\" WHERE \"Books\".id NOT IN (SELECT book_id FROM \"Rentals\");", { type: sequelize_1.QueryTypes.SELECT });
         });
     }
     static findBookByName(name) {
