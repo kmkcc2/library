@@ -22,7 +22,7 @@ export const rentBook = async (req: Request, res: Response) => {
       const isRented = await RentalRepository.findRentalByBookId(book_id)
       if (isRented !== null) {
         return res.status(422).send({
-          message: `Book with id: ${book_id} is already rented`
+          message: `Book with id: ${book_id} is not available`
         })
       }
       res.send(await RentalRepository.createRental({ user_id, book_id }))

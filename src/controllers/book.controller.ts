@@ -1,5 +1,4 @@
 import { type Request, type Response } from 'express'
-import { Book } from '../models/book'
 import { DatabaseError } from 'sequelize'
 import BookRepository from '../repositories/book.repository'
 
