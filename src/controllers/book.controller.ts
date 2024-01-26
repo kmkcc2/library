@@ -4,11 +4,11 @@ import { DatabaseError } from 'sequelize'
 import BookRepository from '../repositories/book.repository'
 
 export const create = async (req: Request, res: Response) => {
-  const book = new Book({
-    title: req.body.title,
+  const book = {
+    name: req.body.name,
     author: req.body.author,
     isbn: req.body.isbn
-  })
+  }
   try {
     const newBook = await BookRepository.createBook(book)
     return res.send(newBook)
